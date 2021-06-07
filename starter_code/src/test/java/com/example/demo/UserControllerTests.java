@@ -40,6 +40,9 @@ public class UserControllerTests {
         TestUtils.injectObjects(userController, "bCryptPasswordEncoder", bCryptPasswordEncoder);
     }
 
+    /**
+     * Tests the happy path.
+     */
     @Test
     public void createUser() {
 
@@ -62,6 +65,9 @@ public class UserControllerTests {
         assertEquals("thisIsHashed", user.getPassword());
     }
 
+    /**
+     * Tests that user whose password does not meet the minimum requirements will not be created.
+     */
     @Test
     public void createUserBadPassword() {
 
@@ -76,6 +82,9 @@ public class UserControllerTests {
         assertEquals(400, response.getStatusCodeValue());
     }
 
+    /**
+     * Tests that an existing user in the system can be found by their id.
+     */
     @Test
     public void findById() {
 
@@ -92,6 +101,21 @@ public class UserControllerTests {
         assertEquals(200, findByIdResponse.getStatusCodeValue());
     }
 
+    /**
+     * Attempts to locate a user by id that is not in the system which should return a 404 status.
+     */
+    @Test
+    public void findByIdNoIdFound() {
+
+        ResponseEntity<User> findByIdResponse = userController.findById(999l);
+
+        assertNotNull(findByIdResponse);
+        assertEquals(404, findByIdResponse.getStatusCodeValue());
+    }
+
+    /**
+     * Tests that an existing user in the system can be found by their user name.
+     */
     @Test
     public void findByUserName() {
 
@@ -106,5 +130,17 @@ public class UserControllerTests {
 
         assertNotNull(findByUserNameResponse);
         assertEquals(200, findByUserNameResponse.getStatusCodeValue());
+    }
+
+    /**
+     * Attempts to locate a user by username that is not in the system which should return a 404 status.
+     */
+    @Test
+    public void findByUserNameNoUserNameFound() {
+
+        ResponseEntity<User> findByUserNameResponse = userController.findByUserName("NOTFOUND");
+
+        assertNotNull(findByUserNameResponse);
+        assertEquals(404, findByUserNameResponse.getStatusCodeValue());
     }
 }
