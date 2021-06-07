@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.controllers.ItemController;
+import com.example.demo.model.persistence.Cart;
 import com.example.demo.model.persistence.Item;
 import com.example.demo.model.persistence.repositories.ItemRepository;
 import org.junit.Before;
@@ -87,9 +88,19 @@ public class ItemControllerTest {
 
         Item returnedItem = itemResponse.getBody();
 
+        //Test some of the overridden methos in the entity
         assertEquals(item.toString(), returnedItem.toString());
         assertEquals(item.hashCode(), returnedItem.hashCode());
         assertTrue(item.equals(returnedItem));
+        assertFalse(item.equals(null));
+        assertFalse(item.equals(new Cart()));
+
+        Item item2 = new Item();
+        item2.setId(2L);
+        item.setName("TEST ITEM 2");
+        item.setDescription("TEST ITEM 2 DESCRIPTION");
+        item.setPrice(new BigDecimal(4.99));
+        assertFalse(item.equals(item2));
     }
 
     /**
