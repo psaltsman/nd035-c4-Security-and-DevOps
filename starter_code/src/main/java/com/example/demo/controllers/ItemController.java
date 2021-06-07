@@ -24,6 +24,9 @@ public class ItemController {
 	
 	@GetMapping
 	public ResponseEntity<List<Item>> getItems() {
+
+		log.info("getItems");
+
 		return ResponseEntity.ok(itemRepository.findAll());
 	}
 	
@@ -37,6 +40,9 @@ public class ItemController {
 	
 	@GetMapping("/name/{name}")
 	public ResponseEntity<List<Item>> getItemsByName(@PathVariable String name) {
+
+		log.info("getItemsByName");
+
 		List<Item> items = itemRepository.findByName(name);
 		return items == null || items.isEmpty() ? ResponseEntity.notFound().build()
 				: ResponseEntity.ok(items);
