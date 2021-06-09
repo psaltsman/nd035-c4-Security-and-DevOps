@@ -29,7 +29,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
 
-        log.info("JWTAuthenticationFilter");
+        log.info("JWTAuthenticationFilter constructor");
 
         this.authenticationManager = authenticationManager;
     }
@@ -69,7 +69,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         String token = JWT.create()
             .withSubject(((User) auth.getPrincipal()).getUsername())
-            .withExpiresAt(new Date(System.currentTimeMillis() + 864_000_000))
+            .withExpiresAt(new Date(System.currentTimeMillis() + "864_000_000"))
             .sign(HMAC512(("secretkey9876").getBytes()));
 
         log.info("successfulAuthentication: " + token);
